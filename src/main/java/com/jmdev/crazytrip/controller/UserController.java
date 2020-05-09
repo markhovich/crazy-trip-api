@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.jmdev.crazytrip.exceptions.UserEmailException;
+import com.jmdev.crazytrip.exceptions.UserNameException;
 import com.jmdev.crazytrip.model.User;
 import com.jmdev.crazytrip.service.UserService;
 
@@ -35,12 +37,23 @@ public class UserController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<Object> createUser(@RequestBody User user) {
+	public ResponseEntity<Object> createUser(@RequestBody User user) throws UserNameException, UserEmailException {
+		User userCheck1 = this.us.findByName(user.getName());
+		User userCheck2 = this.us.findByEmail(user.getEmail());
+		
+		if(userCheck1 != null) {
+			throw new UserNameException(user.getName());
+		}
+		
+		if(userCheck2 != null) {
+			throw new UserEmailException(user.getEmail());
+		}
+		
 		User savedUser = this.us.save(user);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(savedUser.getId()).toUri();
-
+		
 		return ResponseEntity.created(location).build();
 	}
 

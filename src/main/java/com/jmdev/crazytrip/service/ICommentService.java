@@ -26,7 +26,7 @@ public class ICommentService implements CommentService{
 	
 	@Override
 	public Iterable<Comment> findAll() {
-		return this.cr.findAll();
+		return this.cr.findAllByOrderByIdDesc();
 	}
 
 	@Override

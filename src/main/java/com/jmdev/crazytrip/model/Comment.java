@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
@@ -24,7 +25,6 @@ public @Data class Comment {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="article_id")
-	@JsonIgnore
 	private Article article;
 
 	public Comment() {}
@@ -37,5 +37,15 @@ public @Data class Comment {
 		this.content = content;
 		this.article = article;
 		this.user = user;
+	}
+	
+	@JsonIgnore
+	public Article getArticle() {
+		return this.article;
+	}
+	
+	@JsonProperty
+	public void setArticle(Article article) {
+		this.article = article;
 	}
 }

@@ -8,4 +8,5 @@ import com.jmdev.crazytrip.model.Article;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Integer>{
 
+	Iterable<Article> findAllByOrderByIdDesc();
 }

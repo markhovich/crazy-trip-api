@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.jmdev.crazytrip.dao.ArticleRepository;
@@ -24,7 +25,7 @@ public class IArticleService implements ArticleService{
 
 	@Override
 	public Iterable<Article> findAll() {
-		return this.ar.findAll();
+		return this.ar.findAllByOrderByIdDesc();
 	}
 
 	@Override

@@ -6,4 +6,5 @@ import com.jmdev.crazytrip.model.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Integer>{
 
+	Iterable<Comment> findAllByOrderByIdDesc();
 }

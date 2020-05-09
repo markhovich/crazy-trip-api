@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import javassist.NotFoundException;
 
 @RestController
 @RequestMapping(value="/comments")
+@CrossOrigin(origins="http://localhost:4200")
 public class CommentController {
 
 	@Autowired
@@ -50,11 +52,11 @@ public class CommentController {
 		return this.cs.findByString(search);
 	}
 
-	@PostMapping("/{artId}/{userId}")
-	public ResponseEntity<Object> createComment(@RequestBody Comment comment, 
-			@PathVariable("artId") int artId, @PathVariable("userId") int userId) throws NotFoundException {
-		Optional<Article> article = this.as.findById(artId);
-		Optional<User> user = this.us.findById(userId);
+	@PostMapping("")
+	public ResponseEntity<Object> createComment(@RequestBody Comment comment) throws NotFoundException {
+		System.out.println(comment);
+		Optional<Article> article = this.as.findById(comment.getArticle().getId());
+		Optional<User> user = this.us.findById(comment.getUser().getId());
 
 		if (!article.isPresent() || !user.isPresent())
 			throw new NotFoundException("NOT FOUND");

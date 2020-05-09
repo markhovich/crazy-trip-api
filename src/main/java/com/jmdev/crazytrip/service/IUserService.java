@@ -31,6 +31,25 @@ public class IUserService implements UserService{
 	public Optional<User> findById(int id) {
 		return this.ur.findById(id);
 	}
+	
+	public User findByName(String name){
+		List<User> user = this.em.createQuery("FROM User WHERE name='" + name + "'").getResultList();
+		
+		if(user.isEmpty()) {
+			return null;
+		}
+		return user.get(0);
+	}
+	
+
+	@Override
+	public User findByEmail(String email) {
+		List<User> user = this.em.createQuery("FROM User WHERE email ='" + email + "'").getResultList();		
+		if(user.isEmpty()) {
+			return null;
+		}
+		return user.get(0);
+	}
 
 	@Override
 	public User save(User urer) {
@@ -60,7 +79,6 @@ public class IUserService implements UserService{
 		if(search.length() == 0) {
 			return null;
 		}
-		
 		return this.em.createQuery("FROM User WHERE name "
 				+ "LIKE '%" + search + "%' OR email LIKE '%" + search + "%'").getResultList();
 	}
